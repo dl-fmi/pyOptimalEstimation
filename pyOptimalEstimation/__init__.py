@@ -26,4 +26,4 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-from .pyOEcore import optimalEstimation, optimalEstimation_loadResults, invertMatrix
+from dialpy.pyOptimalEstimation.pyOptimalEstimation.pyOEcore import optimalEstimation, optimalEstimation_loadResults, invertMatrix

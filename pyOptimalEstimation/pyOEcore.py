@@ -156,8 +156,13 @@ class optimalEstimation(object):
             'S_a must not be singular'
         assert np.linalg.matrix_rank(S_y) == S_y.shape[-1],\
             'S_y must not be singular'
-        for inVar in [x_a, S_a, S_y, y_obs]:
-            assert not np.any(np.isnan(inVar))
+        #for inVar in [x_a, S_a, S_y, y_obs]:
+        #    assert not np.any(np.isnan(inVar))
+
+        print(x_a)
+        print(S_a)
+        print(S_y)
+        print(y_obs)
 
         self.x_vars = list(x_vars)
         self.x_a = pd.Series(x_a, index=self.x_vars)
