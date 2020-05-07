@@ -156,13 +156,8 @@ class optimalEstimation(object):
             'S_a must not be singular'
         assert np.linalg.matrix_rank(S_y) == S_y.shape[-1],\
             'S_y must not be singular'
-        #for inVar in [x_a, S_a, S_y, y_obs]:
-        #    assert not np.any(np.isnan(inVar))
-
-        print(x_a)
-        print(S_a)
-        print(S_y)
-        print(y_obs)
+        for inVar in [x_a, S_a, S_y, y_obs]:
+            assert not np.any(np.isnan(inVar))
 
         self.x_vars = list(x_vars)
         self.x_a = pd.Series(x_a, index=self.x_vars)
@@ -357,8 +352,7 @@ class optimalEstimation(object):
 
         for i in range(maxIter):
 
-            self.K_i[i], self.K_b_i[i] = self.getJacobian(
-                pd.concat((self.x_i[i], self.b_p)))
+            self.K_i[i], self.K_b_i[i] = self.getJacobian(pd.concat((self.x_i[i], self.b_p)))
 
             if np.sum(self.S_b.shape) > 0:
                 S_Ep_b = self.K_b_i[i].values.dot(
@@ -369,7 +363,6 @@ class optimalEstimation(object):
             # uncertainty (Rodgers, sec 3.4.3)
             S_Ep = self.S_y.values + S_Ep_b
             S_Ep_inv = invertMatrix(S_Ep)  # S_Ep inverted
-
             assert np.all(self.y_disturbed.keys() == self.S_y.keys())
             assert np.all(self.S_y.keys() == self.K_i[i].index)
             assert np.all(self.S_a.index == self.x_a.index)
@@ -400,6 +393,8 @@ class optimalEstimation(object):
                 B_inv.dot(
                 K.T.dot(S_Ep_inv.dot(self.y_obs - self.y_i[i] +
                                      K.dot(self.x_i[i] - self.x_a))))  # eq 1
+
+
             self.dgf_i[i] = np.trace(self.A_i[i])
             # eq. 2.80 Rodgers
             self.H_i[i] = -0.5 * \
